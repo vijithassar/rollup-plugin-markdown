@@ -26,7 +26,7 @@ const markdown = (options = {}) => {
             const magicstring = new MagicString(code);
 
             // determine which lines to include
-            const lines = code.split("\n");
+            const lines = code.split('\n');
             // track whether we're inside a code block
             let code_block = false;
             let position = 0;
