@@ -1,0 +1,35 @@
+{
+  "name": "rollup-plugin-markdown",
+  "version": "0.1.0",
+  "description": "import JavaScript from Markdown code blocks",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vijithassar/rollup-plugin-markdown.git"
+  },
+  "module": "source/markdown.js",
+  "keywords": [
+    "Markdown",
+    "documentation",
+    "literate",
+    "programming",
+    "writing"
+  ],
+  "scripts": {
+    "lint": "eslint --config eslintrc.json ./source/*.js"
+  },
+  "author": "Vijith Assar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vijithassar/rollup-plugin-markdown/issues"
+  },
+  "homepage": "https://github.com/vijithassar/rollup-plugin-markdown#readme",
+  "dependencies": {
+    "magic-string": "^0.22.4",
+    "rollup-pluginutils": "^2.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "mocha": "^4.0.1"
+  }
+}
