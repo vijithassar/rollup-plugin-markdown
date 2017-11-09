@@ -25,11 +25,27 @@ const markdown = (options = {}) => {
             // load source code string into MagicString for transformation
             const magicstring = new MagicString(code);
 
-            // determine which lines to include
+            // spit input code string along newlines
             const lines = code.split('\n');
+
+            // if it doesn't look like a valid Markdown document containing
+            // a reasonable number of code blocks, exit immediately and
+            // return the input
+            const fences = lines.filter(item => item.slice(0, 3) === '```');
+            const even_fences = fences.length % 2 === 0;
+            const has_fences = fences.length > 0;
+            if (! even_fences || ! has_fences) {
+                const self = {code: code};
+                if (sourcemap) {
+                    self.map = magicstring.generateMap({hires: true});
+                }
+                return self;
+            }
+
             // track whether we're inside a code block
             let code_block = false;
             let position = 0;
+            // determine which lines to include in the output
             const line_data = lines
                 .map(string => {
                     const start = position;

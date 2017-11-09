@@ -47,4 +47,10 @@ describe('rollup-plugin-markdown', () => {
             assert.equal(processed[index], line);
         });
     });
+    it('leaves non-Markdown code untouched', () => {
+        const input = 'console.log("hello world");';
+        const expected = 'console.log("hello world");';
+        const processed = lines(input).pop();
+        assert.equal(processed, expected);
+    });
 });
