@@ -8,7 +8,6 @@
     "parserOptions": {
       "sourceType": "module"
     },
-    "ecmaFeatures": {"blockBindings": true},
     "rules": {
         "indent": ["warn", 4],
         "no-unused-vars": ["error", { "argsIgnorePattern": "_" }],
