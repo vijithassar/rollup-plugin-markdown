@@ -20,14 +20,38 @@ describe('rollup-plugin-markdown', () => {
         assert.equal(typeof instance.transform, 'function');
     });
     it('extracts code blocks from Markdown', () => {
-        const markdown = '# heading\ntext\n```\ncode()\n```';
+        const markdown = '# heading\ntext\n```js\ncode()\n```';
         const expected = 'code()';
+        const processed = lines(markdown);
+        assert.equal(processed, expected);
+    });
+    it('ignores code with languages other than JavaScript specified', () => {
+        const markdown = '# heading\ntext\n```bash\na()\n```\ntext\n```js\nb()\n```';
+        const expected = 'b()';
+        const processed = lines(markdown).join('\n');
+        assert.equal(processed, expected);
+    });
+    it('ignores code without a language annotation after opening fence', () => {
+        const markdown = '# heading\ntext\n```\na()\n```\ntext\n```javascript\nb()\n```';
+        const expected = 'b()';
+        const processed = lines(markdown).join('\n');
+        assert.equal(processed, expected);
+    });
+    it('captures code with js as the language annotation', () => {
+        const markdown = '# heading\ntext\n```js\nb()\n```';
+        const expected = 'b()';
         const processed = lines(markdown).pop();
         assert.equal(processed, expected);
     });
-    it('allows language annotations after fenced code blocks', () => {
-        const markdown = '# heading\ntext\n```js\ncode()\n```';
-        const expected = 'code()';
+    it('captures code with javascript as the language annotation', () => {
+        const markdown = '# heading\ntext\n```javascript\nb()\n```';
+        const expected = 'b()';
+        const processed = lines(markdown).pop();
+        assert.equal(processed, expected);
+    });
+    it('ignores code without a language annotation after opening fence', () => {
+        const markdown = '# heading\ntext\n```\na()\n```\ntext\n```javascript\nb()\n```';
+        const expected = 'b()';
         const processed = lines(markdown).pop();
         assert.equal(processed, expected);
     });
