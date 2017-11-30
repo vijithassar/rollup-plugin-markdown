@@ -31,9 +31,11 @@ const markdown = (options = {}) => {
             // if it doesn't look like a valid Markdown document containing
             // a reasonable number of code blocks, exit immediately and
             // return the input
+
             const fences = lines.filter(item => item.slice(0, 3) === '```');
             const even_fences = fences.length % 2 === 0;
             const has_fences = fences.length > 0;
+
             if (! even_fences || ! has_fences) {
                 const self = {code: code};
                 if (sourcemap) {
@@ -44,6 +46,7 @@ const markdown = (options = {}) => {
 
             // track whether we're inside a code block
             let code_block = false;
+            let js_code_block = false;
             let position = 0;
             // determine which lines to include in the output
             const line_data = lines
@@ -51,17 +54,21 @@ const markdown = (options = {}) => {
                     const start = position;
                     const end = position + string.length;
                     position = end + 1;
-                    const backticks = string.slice(0, 3) === '```';
                     // every time a set of backticks is detected,
                     // toggle the code block
+                    const backticks = string.slice(0, 3) === '```';
                     if (backticks) {
                         code_block = ! code_block;
+                    }
+                    const js_backticks = string.slice(0, 5) === '```js' || string.slice(0, 13) === '```javascript';
+                    if (js_backticks) {
+                        js_code_block = ! js_code_block;
                     }
                     const line = {
                         line: string,
                         start: start,
                         end: end,
-                        include: code_block && ! backticks
+                        include: code_block && js_code_block && ! backticks && ! js_backticks
                     };
                     return line;
                 });
