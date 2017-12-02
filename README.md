@@ -21,3 +21,5 @@ After you import and run this plugin in your `rollup.config.js` configuration fi
 `import { greeting } from './path/to/README.md';`
 
 Sourcemaps will correctly point your debugging back to the original Markdown documents.
+
+You *must* include `js` or `javascript` as a language specifier after opening up a fenced code block in Markdown. Fenced code blocks that specify any other language and fenced code blocks that do not specify a language at all will be ignored. This makes it possible for you to include other code in your Markdown file without that code being executed. This is particularly useful for including Bash commands.
